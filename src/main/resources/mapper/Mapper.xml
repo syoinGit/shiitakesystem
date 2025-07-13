@@ -5,20 +5,49 @@
 
 <mapper namespace="portfolio.shiitake.system.repository.ShiitakeRepository">
 
+  <!-- スタッフの全件検索 -->
   <select id="findAllStaff" resultType="portfolio.shiitake.system.data.staff.StaffDto">
     SELECT * FROM staff
   </select>
 
+  <!-- ハウスの全件検索 -->
   <select id="findAllHouse" resultType="portfolio.shiitake.system.data.house.HouseDto">
     SELECT * FROM house
   </select>
 
+  <!-- タスクの全件検索 -->
   <select id="findAllTask" resultType="portfolio.shiitake.system.data.task.TaskDto">
     SELECT * FROM task
   </select>
 
+  <!-- 勤務情報の全件検索 -->
   <select id="findAllWorklog" resultType="portfolio.shiitake.system.data.worklog.WorkLogDto">
     SELECT * FROM work_log
   </select>
+
+  <!-- ログインコードからスタッフID（String）を取得 -->
+  <select id="findStaffId" resultType="java.lang.String">
+    SELECT id
+    FROM staff
+    WHERE login_code = #{loginCode}
+  </select>
+
+  <!-- ログインコードからスタッフ名（name）を取得 -->
+  <select id="findStaffName" resultType="java.lang.String">
+    SELECT name
+    FROM staff
+    WHERE login_code = #{loginCode}
+  </select>
+
+  <!-- 出勤が重複しているかを検索 -->
+  <select id="existsWorkLog" resultType="int">
+    SELECT COUNT(*) FROM work_log WHERE id = #{id}
+  </select>
+
+  <!-- 出勤処理 -->
+  <insert id="clockIn">
+    INSERT INTO work_log (id, staff_id, date, clock_in)
+    VALUES (#{id}, #{staffId}, #{date}, #{clockIn})
+  </insert>
 
 </mapper>
