@@ -5,13 +5,20 @@
 
 <mapper namespace="portfolio.shiitake.system.repository.ShiitakeRepository">
 
-  <select id="findAllStaff" resultType="portfolio.shiitake.system.data.staff.Staff">
+  <select id="findAllStaff" resultType="portfolio.shiitake.system.data.staff.StaffDto">
     SELECT * FROM staff
   </select>
 
-  <insert id="insertStaff" parameterType="portfolio.shiitake.system.data.staff.Staff">
-    INSERT INTO staff (id, name, login_code)
-    VALUES (#{id}, #{name}, #{loginCode})
-  </insert>
+  <select id="findAllHouse" resultType="portfolio.shiitake.system.data.house.HouseDto">
+    SELECT * FROM house
+  </select>
+
+  <select id="findAllTask" resultType="portfolio.shiitake.system.data.task.TaskDto">
+    SELECT * FROM task
+  </select>
+
+  <select id="findAllWorklog" resultType="portfolio.shiitake.system.data.worklog.WorkLogDto">
+    SELECT * FROM work_log
+  </select>
 
 </mapper>
