@@ -20,7 +20,7 @@ public class ShiitakeConverter {
       staffDetailDto.setStaffDto(staffDto);
 
       List<TaskDto> matchTask = taskDtos.stream()
-          .filter(s -> s.getWorkerId().equals(staffDetailDto.getStaffDto().getId()))
+          .filter(s -> s.getStaffId().equals(staffDetailDto.getStaffDto().getId()))
           .toList();
       staffDetailDto.setTaskDto(matchTask);
 

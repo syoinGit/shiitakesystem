@@ -21,7 +21,7 @@ CREATE TABLE house (
   priority VARCHAR(20) NOT NULL
 );
 
--- 作業ログテーブル（❌ work_log_id は不要）
+-- 作業ログテーブル
 CREATE TABLE work_log (
   id VARCHAR(36) PRIMARY KEY,
   staff_id VARCHAR(36) NOT NULL,
@@ -32,14 +32,14 @@ CREATE TABLE work_log (
   FOREIGN KEY (staff_id) REFERENCES staff(id)
 );
 
--- タスクテーブル（✅ こっちに work_log_id を追加）
+-- タスクテーブル（修正後）
 CREATE TABLE task (
   id VARCHAR(36) PRIMARY KEY,
-  worker_id VARCHAR(36) NOT NULL,
+  staff_id VARCHAR(36) NOT NULL,
   house_id VARCHAR(36) NOT NULL,
   task_type VARCHAR(20) NOT NULL,
   work_log_id VARCHAR(36),
-  FOREIGN KEY (worker_id) REFERENCES staff(id),
+  FOREIGN KEY (staff_id) REFERENCES staff(id),
   FOREIGN KEY (house_id) REFERENCES house(id),
   FOREIGN KEY (work_log_id) REFERENCES work_log(id)
 );

@@ -4,7 +4,11 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ResponseBody;
 import portfolio.shiitake.system.data.staff.StaffDetailDto;
+import portfolio.shiitake.system.data.task.Task;
+import portfolio.shiitake.system.data.task.TaskForm;
+import portfolio.shiitake.system.data.task.TaskType;
 import portfolio.shiitake.system.data.worklog.WorkLog;
 import portfolio.shiitake.system.repository.ShiitakeRepository;
 import portfolio.shiitake.system.service.converter.ShiitakeConverter;
@@ -44,11 +48,39 @@ public class ShiitakeService {
     repository.clockIn(workLog);
   }
 
+  // 退勤
+  public void clockOutStaff(String loginCode) {
+    String staffId = repository.findStaffId(loginCode);
+    String workLogId = staffId + LocalDate.now();
+    // 出勤状態の検証
+    if (repository.existsWorkLog(workLogId) == 0) {
+      throw new IllegalStateException("出勤されていません");
+    }
+    WorkLog workLog = new WorkLog();
+    workLog.setId(workLogId);
+    workLog.setClockOut(LocalDateTime.now());
+
+    repository.clockOut(workLog);
+  }
+
+  // 作業の登録
+  public void registerTask(TaskForm taskForm) {
+    String staffId = repository.findStaffId(taskForm.getLoginCode());
+
+    Task task = new Task();
+    task.setId(staffId + LocalDateTime.now());
+    task.setStaffId(staffId);
+    task.setHouseId(taskForm.getHouseId());
+    task.setWorkLogId(staffId + LocalDate.now());
+    task.setTaskType(TaskType.valueOf(taskForm.getTaskType()));
+
+    repository.insertTask(task);
+  }
+
+
   // ログインコードから名前を検索
   public String searchStaff(String loginCode) {
     return repository.findStaffName(loginCode);
 
   }
-
-
 }

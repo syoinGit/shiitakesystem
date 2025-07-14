@@ -4,6 +4,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import portfolio.shiitake.system.data.house.HouseDto;
 import portfolio.shiitake.system.data.staff.StaffDto;
+import portfolio.shiitake.system.data.task.Task;
 import portfolio.shiitake.system.data.task.TaskDto;
 import portfolio.shiitake.system.data.worklog.WorkLog;
 import portfolio.shiitake.system.data.worklog.WorkLogDto;
@@ -35,6 +36,10 @@ public interface ShiitakeRepository {
   // 出勤処理
   void clockIn(WorkLog workLog);
 
+  // 退勤処理
+  void clockOut(WorkLog workLog);
+
+  // 業務の登録
+  void insertTask(Task task);
 
 }
-

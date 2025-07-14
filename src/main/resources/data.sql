@@ -13,6 +13,6 @@ INSERT INTO work_log (id, staff_id, date, clock_in, clock_out, harvest_kg) VALUE
   ('log-001', 'staff-001', '2025-07-12', '2025-07-12 08:00:00', '2025-07-12 17:00:00', 12.5),
   ('log-002', 'staff-002', '2025-07-11', '2025-07-11 09:00:00', '2025-07-11 16:00:00', 8.3);
 
-INSERT INTO task (id, worker_id, house_id, task_type, work_log_id) VALUES
+INSERT INTO task (id, staff_id, house_id, task_type, work_log_id) VALUES
   ('task-001', 'staff-001', 'house-001', 'HARVEST', 'log-001'),
   ('task-002', 'staff-002', 'house-002', 'CARRY_BLOCKS', 'log-002');

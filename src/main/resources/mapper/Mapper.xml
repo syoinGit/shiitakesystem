@@ -50,4 +50,28 @@
     VALUES (#{id}, #{staffId}, #{date}, #{clockIn})
   </insert>
 
+  <!-- 退勤処理 -->
+  <update id="clockOut">
+    UPDATE work_log
+    SET clock_out = #{clockOut}
+    WHERE id = #{id}
+  </update>
+
+  <!-- タスク登録 -->
+  <insert id="insertTask" parameterType="portfolio.shiitake.system.data.task.Task">
+    INSERT INTO task (
+    id,
+    staff_id,
+    house_id,
+    task_type,
+    work_log_id
+    ) VALUES (
+    #{id},
+    #{staffId},
+    #{houseId},
+    #{taskType},
+    #{workLogId}
+    )
+  </insert>
+
 </mapper>

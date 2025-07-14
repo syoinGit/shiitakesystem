@@ -10,7 +10,7 @@ import portfolio.shiitake.system.data.worklog.WorkLogDto;
 public class TaskDto {
 
   private String id;
-  private String workerId;
+  private String staffId;
   private String houseId;
   private String workLogId;
   private TaskType taskType;
