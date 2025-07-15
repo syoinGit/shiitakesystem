@@ -25,6 +25,18 @@
     SELECT * FROM work_log
   </select>
 
+  <!-- スタッフの単一検索 -->
+  <select id="searchStaff" resultType="portfolio.shiitake.system.data.staff.StaffDto">
+    SELECT * FROM staff
+    WHERE deleted = false
+    <if test="name != null and name != ''">
+      AND name LIKE CONCAT('%', #{name}, '%')
+    </if>
+    <if test="loginCode != null and loginCode != ''">
+      AND login_code LIKE CONCAT('%', #{loginCode}, '%')
+    </if>
+  </select>
+
   <!-- ログインコードからスタッフID（String）を取得 -->
   <select id="findStaffId" resultType="java.lang.String">
     SELECT id
@@ -73,5 +85,6 @@
     #{workLogId}
     )
   </insert>
+
 
 </mapper>

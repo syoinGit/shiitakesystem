@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ResponseBody;
+import portfolio.shiitake.system.data.staff.Staff;
 import portfolio.shiitake.system.data.staff.StaffDetailDto;
 import portfolio.shiitake.system.data.task.Task;
 import portfolio.shiitake.system.data.task.TaskForm;
@@ -19,15 +19,23 @@ public class ShiitakeService {
   private final ShiitakeRepository repository;
   private final ShiitakeConverter converter;
 
-  private ShiitakeService(ShiitakeRepository repository, ShiitakeConverter converter) {
+  public ShiitakeService(ShiitakeRepository repository, ShiitakeConverter converter) {
     this.repository = repository;
     this.converter = converter;
   }
 
   // 全件検索
   public List<StaffDetailDto> findAllStaff() {
-    return converter.convertStaff(repository.findAllStaff(), repository.findAllTask(),
-        repository.findAllWorklog());
+    return converter.convertStaff(repository.findAllStaff(), repository.findAllWorklog(),
+        repository.findAllTask()
+    );
+  }
+
+  // 単一検索
+  public List<StaffDetailDto> searchStaff(Staff staff) {
+    return converter.convertStaff(repository.searchStaff(staff), repository.findAllWorklog(),
+        repository.findAllTask());
+
   }
 
   // 出勤
@@ -76,7 +84,6 @@ public class ShiitakeService {
 
     repository.insertTask(task);
   }
-
 
   // ログインコードから名前を検索
   public String searchStaff(String loginCode) {

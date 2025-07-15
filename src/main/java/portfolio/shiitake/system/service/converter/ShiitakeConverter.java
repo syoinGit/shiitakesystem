@@ -11,8 +11,8 @@ import portfolio.shiitake.system.data.worklog.WorkLogDto;
 @Component
 public class ShiitakeConverter {
 
-  public List<StaffDetailDto> convertStaff(List<StaffDto> staffDtos, List<TaskDto> taskDtos,
-      List<WorkLogDto> workLogDtos) {
+  public List<StaffDetailDto> convertStaff(List<StaffDto> staffDtos,
+      List<WorkLogDto> workLogDtos, List<TaskDto> taskDtos) {
     List<StaffDetailDto> staffDetailDtos = new ArrayList<>();
 
     for (StaffDto staffDto : staffDtos) {

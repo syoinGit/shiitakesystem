@@ -3,6 +3,7 @@ package portfolio.shiitake.system.repository;
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import portfolio.shiitake.system.data.house.HouseDto;
+import portfolio.shiitake.system.data.staff.Staff;
 import portfolio.shiitake.system.data.staff.StaffDto;
 import portfolio.shiitake.system.data.task.Task;
 import portfolio.shiitake.system.data.task.TaskDto;
@@ -23,6 +24,9 @@ public interface ShiitakeRepository {
 
   // 勤務情報の全件検索
   List<WorkLogDto> findAllWorklog();
+
+  // 単一検索
+  List<StaffDto> searchStaff(Staff staff);
 
   // ログインコードからスタッフIDを検索
   String findStaffId(String loginCode);
