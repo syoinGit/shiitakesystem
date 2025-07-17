@@ -7,20 +7,21 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import portfolio.shiitake.system.data.staff.Staff;
 import portfolio.shiitake.system.data.staff.StaffDetailDto;
 import portfolio.shiitake.system.data.staff.StaffDto;
+import portfolio.shiitake.system.data.task.Task;
 import portfolio.shiitake.system.data.task.TaskDto;
 import portfolio.shiitake.system.data.task.TaskForm;
 import portfolio.shiitake.system.data.task.TaskType;
@@ -39,6 +40,9 @@ class ShiitakeServiceTest {
 
   @Mock
   private ShiitakeConverter converter;
+
+  @Captor
+  private ArgumentCaptor<Task> taskCaptor;
 
   @Test
   void 従業員情報の全件検索_リポジトリとコンバーターが呼び出されていること() {
@@ -131,14 +135,34 @@ class ShiitakeServiceTest {
     ShiitakeService sut = new ShiitakeService(repository, converter);
     TaskForm taskForm = new TaskForm();
     taskForm.setLoginCode("login001");
-    taskForm.setHouseId("staff001");
+    taskForm.setHouseId("house001");
     taskForm.setTaskType(String.valueOf(TaskType.CARRY_BLOCKS));
+    taskForm.setHarvestKg(5.0);
+
+    when(repository.findStaffId("login001")).thenReturn("staff001");
 
     sut.registerTask(taskForm);
 
+    verify(repository).insertTask(taskCaptor.capture());
+    Task captured = taskCaptor.getValue();
 
+    assertEquals("staff001", captured.getStaffId());
+    assertEquals("house001", captured.getHouseId());
+    assertEquals(TaskType.CARRY_BLOCKS, captured.getTaskType());
+    assertEquals(5.0, captured.getHarvestKg());
   }
 
+  @Test
+  void ログインコードから名前を検索_検索できているか確認() {
+    ShiitakeService sut = new ShiitakeService(repository, converter);
+    String loginCode = "login001";
+    String staffName = "山田太郎";
+
+    when(repository.findStaffName(loginCode)).thenReturn(staffName);
+    String actual = sut.searchStaff(loginCode);
+
+    assertEquals("山田太郎", actual);
+  }
 
   private WorkLog getWorklog() {
     WorkLog workLog = new WorkLog();

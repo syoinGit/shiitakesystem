@@ -81,6 +81,7 @@ public class ShiitakeService {
     task.setHouseId(taskForm.getHouseId());
     task.setWorkLogId(staffId + LocalDate.now());
     task.setTaskType(TaskType.valueOf(taskForm.getTaskType()));
+    task.setHarvestKg(taskForm.getHarvestKg());
 
     repository.insertTask(task);
   }
@@ -88,6 +89,5 @@ public class ShiitakeService {
   // ログインコードから名前を検索
   public String searchStaff(String loginCode) {
     return repository.findStaffName(loginCode);
-
   }
 }
